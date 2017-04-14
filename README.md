@@ -10,13 +10,13 @@ This example App exposes [LRU-CACHE](https://www.npmjs.com/package/lru-cache) vi
 
 | Call  	    | Format  	| Response  |
 |---	    |---	|---  |
-| SET  	  | ```/api/set/{key}/{value}```  	| ```{status}``` |
-| GET  	  | ```/api/get/{key}```  	| ```{value}``` |
-| UNSET  	| ```/api/unset/{key}```  	| ```{status}``` |
+| ```SET```  	  | ```/api/set/{key}/{value}```  	| ```{status}``` |
+| ```GET```  	  | ```/api/get/{key}```  	| ```{value}``` |
+| ```UNSET```  	| ```/api/unset/{key}```  	| ```{status}``` |
 
 
 ### Example
-##### GET
+##### Strings
 ```
 curl http://127.0.0.1:3000/api/set/something/good
 ```
@@ -24,7 +24,7 @@ curl http://127.0.0.1:3000/api/set/something/good
 curl http://127.0.0.1:3000/api/get/something
 ```
 
-##### POST
+##### JSON Objects
 ```
 curl -X POST -H "Content-type: application/json" \
   -d '{"taste": "great"}' \
