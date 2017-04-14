@@ -17,21 +17,31 @@ router.all('*',function(req,res,next) {
     next();
 });
 
-router.get('/', (req, res) => {
-  	res.sendStatus(200)
+router.get('/ping', (req, res) => {
+	if (cache) res.sendStatus(200)
+	else res.sendStatus(500)
 })
 
-/* SET DATA */
+/* 	SET DATA (POST)
+	Set Key Value or Key {Object} with optional TTL parameter.
+*/
 
-router.post('/api/set/:key', (req, res) => {
+router.post('/api/set/:key/:ttl?', (req, res) => {
   try {
-	cache.set(req.params.key, req.body);
-	res.sendStatus(200)
+	if (req.body) {
+		if (req.params.ttl) cache.set(req.params.key, req.body, req.params.ttl);
+		else cache.set(req.params.key, req.body);
+		res.sendStatus(200)
+	} else { res.sendStatus(500) }
   } catch(e) {
 	console.log(e)
 	res.sendStatus(500)
   }
 })
+
+/* 	SET DATA (GET)
+	Set Key Value or Key {Object} with optional TTL parameter.
+*/
 
 router.get('/api/set/:key/:value', (req, res) => {
   try {
@@ -43,7 +53,20 @@ router.get('/api/set/:key/:value', (req, res) => {
   }
 })
 
-/* GET DATA */
+router.get('/api/set/:key/:value/:ttl', (req, res) => {
+  try {
+	cache.set(req.params.key, req.params.value, req.params.ttl);
+	res.sendStatus(200)
+  } catch(e) {
+	console.log(e)
+	res.sendStatus(500)
+  }
+})
+
+/* 	GET DATA 
+	Both of these will update the "recently used"-ness of the key. 
+	They do what you think. maxAge is optional and overrides the cache maxAge option if provided.
+*/
 
 router.get('/api/get/:key', (req, res) => {
   try {
@@ -55,10 +78,41 @@ router.get('/api/get/:key', (req, res) => {
   }
 })
 
-/* UNSET DATA */
+/* 	PEEK DATA 
+	Returns the key value (or undefined if not found) without updating the "recently used"-ness of the key.
+*/
+
+router.get('/api/peek/:key', (req, res) => {
+  try {
+	res.send(cache.peek(req.params.key))
+
+  } catch(e) {
+	console.log(e)
+	res.sendStatus(500);
+  }
+})
+
+/* 	HAS DATA 
+	Check if a key is in the cache, without updating the recent-ness or deleting it for being stale.
+*/
+
+router.get('/api/has/:key', (req, res) => {
+  try {
+	res.send(cache.has(req.params.key))
+
+  } catch(e) {
+	console.log(e)
+	res.sendStatus(500);
+  }
+})
+
+
+/* 
+	UNSET DATA 
+	Deletes a key out of the cache.
+*/
 
 router.get('/api/unset/:key', (req, res) => {
-  console.log('delete',req.params.key);
   try {
 	cache.del(req.params.key)
 	res.sendStatus(200)
@@ -68,6 +122,35 @@ router.get('/api/unset/:key', (req, res) => {
   }
 })
 
+/* 
+	RESET DATA 
+	Clear the cache entirely, throwing away all values.
+*/
+
+router.get('/api/reset/all', (req, res) => {
+  try {
+	cache.reset()
+	res.sendStatus(200)
+  } catch(e) {
+	console.log(e)
+	res.sendStatus(500)
+  }
+})
+
+/* 
+	PRUNE DATA 
+	Manually iterates over the entire cache proactively pruning old entries.
+*/
+
+router.get('/api/prune/all', (req, res) => {
+  try {
+	cache.prune()
+	res.sendStatus(200)
+  } catch(e) {
+	console.log(e)
+	res.sendStatus(500)
+  }
+})
 
 module.exports = app => {
   app.use('/', router)
