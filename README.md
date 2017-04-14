@@ -8,20 +8,11 @@ This example App exposes [LRU-CACHE](https://www.npmjs.com/package/lru-cache) vi
 
 ### API Calls
 
-##### SET
-```
-/api/set/{key}/{value}
-```
-
-##### GET
-```
-/api/set/{key}
-```
-
-##### UNSET
-```
-/api/unset/{key}
-```
+| Call  	    | Format  	| Response  |
+|---	    |---	|---  |
+| SET  	  | ```/api/set/{key}/{value}```  	| ```{status}``` |
+| GET  	  | ```/api/get/{key}```  	| ```{value}``` |
+| UNSET  	| ```/api/unset/{key}```  	| ```{status}``` |
 
 
 ### Examples
