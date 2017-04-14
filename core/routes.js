@@ -68,9 +68,10 @@ router.get('/api/set/:key/:value/:ttl', (req, res) => {
 	They do what you think. maxAge is optional and overrides the cache maxAge option if provided.
 */
 
-router.get('/api/get/:key', (req, res) => {
+router.get('/api/get/:key/:value?', (req, res) => {
   try {
-	res.send(cache.get(req.params.key))
+	if (req.params.value) res.send( (cache.get(req.params.key))[req.params.value] )
+	else res.send(cache.get(req.params.key))
 
   } catch(e) {
 	console.log(e)
