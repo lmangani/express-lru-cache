@@ -15,9 +15,21 @@ This example App exposes [LRU-CACHE](https://www.npmjs.com/package/lru-cache) vi
 | UNSET  	| ```/api/unset/{key}```  	| ```{status}``` |
 
 
-### Examples
+### Example
+##### GET
+```
+curl http://127.0.0.1:3000/api/set/something/good
+```
+```
+curl http://127.0.0.1:3000/api/get/something
+```
+
+##### POST
 ```
 curl -X POST -H "Content-type: application/json" \
   -d '{"taste": "great"}' \
   http://127.0.0.1:3000/api/set/something
+```
+```
+curl http://127.0.0.1:3000/api/get/something
 ```
