@@ -160,7 +160,7 @@ router.get('/api/prune/all', (req, res) => {
 
 router.post('/api/dump', (req, res) => {
   try {
-	res.sendStatus(200).data( cache.dump() )
+	res.status(200).send( cache.dump() )
   } catch(e) {
 	console.log(e)
 	res.sendStatus(500)
