@@ -4,7 +4,7 @@ This example App exposes [LRU-CACHE](https://www.npmjs.com/package/lru-cache) vi
 
 ### Options
 * ```PORT```: Express API Port _(default: 3000)_
-* ```MAX```:  LRU Max Cache Size _(default: 3000)_
+* ```MAX```:  LRU Max Cache Size _(default: 10000)_
 
 ### API Calls
 

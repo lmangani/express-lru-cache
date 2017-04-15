@@ -1,5 +1,5 @@
 var LRU = require("lru-cache")
-  , options = { max: process.env.MAX || 3000
+  , options = { max: process.env.MAX || 10000
               , length: function (n, key) { return n * 2 + key.length }
 	      , dispose: function (key, n) { return key.length }
               , maxAge: 1000 * 60 * 60 }
