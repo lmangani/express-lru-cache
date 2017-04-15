@@ -153,6 +153,35 @@ router.get('/api/prune/all', (req, res) => {
   }
 })
 
+/* 
+	DUMP/RELOAD DATA
+	Manually dump and reload cache serialized objects.
+*/
+
+router.post('/api/dump', (req, res) => {
+  try {
+	res.sendStatus(200).data( cache.dump() )
+  } catch(e) {
+	console.log(e)
+	res.sendStatus(500)
+  }
+})
+
+router.post('/api/load', (req, res) => {
+  try {
+	if (req.body) {
+		cache.load(req.body);
+		res.sendStatus(200)
+	} else { res.sendStatus(500) }
+  } catch(e) {
+	console.log(e)
+	res.sendStatus(500)
+  }
+})
+
+
+
+
 module.exports = app => {
   app.use('/', router)
 }
